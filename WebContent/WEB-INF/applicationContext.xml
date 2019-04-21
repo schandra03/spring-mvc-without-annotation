@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- the application context definition for the spring application DispatcherServlet -->
+
+	<context:component-scan base-package="simpleformcontroller" />
+
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="shubham" />
+		<property name="password" value="shubham" />
+	</bean>
+
+	<bean id="viewResolver"
+		class=" org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean name="/welcome.htm" class="springmvc.withoutannotation.HelloController">
+	</bean>
+
+	<bean id="userService" class="service.impl.UserServiceImpl" />
+
+	<bean name="/userRegistration.htm" class="simpleformcontroller.UserController">
+		<property name="userService" ref="userService"></property>
+		<property name="formView" value="userForm"></property>
+		<property name="successView" value="userSuccess"></property>
+	</bean>
+
+</beans>
